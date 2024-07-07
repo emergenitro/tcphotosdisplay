@@ -10,9 +10,8 @@ import { mapImageResources, search } from '../lib/cloudinary';
 
 import styles from '@styles/Home.module.scss';
 
-export default function Home({ images: defaultImages, nextCursor: defaultNextCursor, totalCount: defaultTotalCount }) {
+export default function Home({ images: defaultImages, totalCount: defaultTotalCount }) {
   const [images, setImages] = useState(defaultImages);
-  const [nextCursor, setNextCursor] = useState(defaultNextCursor);
   const [totalCount, setTotalCount] = useState(defaultTotalCount);
   const [activeFolder, setActiveFolder] = useState();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,11 +24,10 @@ export default function Home({ images: defaultImages, nextCursor: defaultNextCur
       method: 'POST',
       body: JSON.stringify({
         expression: `folder=""`,
-        nextCursor
       })
     }).then(r => r.json());
 
-    const { resources, next_cursor: nextPageCursor, total_count: updatedTotalCount } = results;
+    const { resources,total_count: updatedTotalCount } = results;
 
     const images = mapImageResources(resources);
 
@@ -39,14 +37,12 @@ export default function Home({ images: defaultImages, nextCursor: defaultNextCur
         ...images
       ]
     });
-    setNextCursor(nextPageCursor);
     setTotalCount(updatedTotalCount);
   }
 
   function handleOnFolderClick(e) {
     const folderPath = e.target.dataset.folderPath;
     setActiveFolder(folderPath)
-    setNextCursor(undefined);
     setImages([]);
     setTotalCount(0);
   }
@@ -60,12 +56,11 @@ export default function Home({ images: defaultImages, nextCursor: defaultNextCur
         })
       }).then(r => r.json());
 
-      const { resources, next_cursor: nextPageCursor, total_count: updatedTotalCount } = results;
+      const { resources, total_count: updatedTotalCount } = results;
 
       const images = mapImageResources(resources);
 
       setImages(images);
-      setNextCursor(nextPageCursor);
       setTotalCount(updatedTotalCount);
     })();
   }, [activeFolder]);
@@ -127,7 +122,8 @@ export async function getStaticProps() {
     expression: 'folder=""'
   });
 
-  const { resources, next_cursor: nextCursor, total_count: totalCount } = results;
+  console.log(results);
+  const { resources, total_count: totalCount } = results;
 
   const images = mapImageResources(resources);
 
@@ -135,7 +131,6 @@ export async function getStaticProps() {
   return {
     props: {
       images,
-      nextCursor,
       totalCount
     }
   }
