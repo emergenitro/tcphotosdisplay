@@ -56,3 +56,70 @@
   }
 
 }
+
+// Modals
+.imageImage img {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.imageImage img:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: flex !important; /* Use flexbox for centering */
+  justify-content: center !important; /* Center horizontally */
+  align-items: center !important; /* Center vertically */
+  position: fixed !important; /* Stay in place */
+  z-index: 1 !important; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100% !important; /* Full width */
+  height: 100% !important; /* Full height */
+  overflow: auto !important; /* Enable scroll if needed */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modalContent {
+  min-width: 0 !important;
+  min-height: 0 !important;
+  display: block !important;
+  margin: auto !important; /* For centering */
+  animation-name: zoom;
+  animation-duration: 0.6s;
+  height: 80vh !important;
+  width: auto !important;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+  z-index: 2;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
